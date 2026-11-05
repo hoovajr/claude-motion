@@ -3,6 +3,7 @@
 //
 //   node render.mjs videos/hello.html            -> out/hello.mp4
 //   node render.mjs videos/hello.html --stills 3 -> out/hello-still-1.png ... -3.png
+//   node render.mjs videos/hello.html --at 1,2.5   -> stills at exact seconds
 //
 // Each video sets window.DURATION, window.SIZE and window.render(t).
 
@@ -28,6 +29,7 @@ function parseArgs(argv) {
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--stills') args.stills = Number(argv[++i] ?? 3) || 3;
+    else if (a === '--at') args.at = String(argv[++i] ?? '').split(',').map(Number).filter((n) => !Number.isNaN(n));
     else if (!args.file) args.file = a;
   }
   if (!args.file) {
@@ -38,7 +40,7 @@ function parseArgs(argv) {
 }
 
 async function main() {
-  const { file, stills } = parseArgs(process.argv.slice(2));
+  const { file, stills, at } = parseArgs(process.argv.slice(2));
   const abs = path.resolve(file);
   const name = path.basename(abs, '.html');
   const outDir = path.resolve('out');
@@ -66,11 +68,12 @@ async function main() {
     return page.screenshot({ type: 'png', clip: { x: 0, y: 0, width, height } });
   };
 
-  if (stills > 0) {
-    // Evenly spaced through the video, avoiding the exact end frame.
+  if (stills > 0 || (at && at.length)) {
+    // --at 1.5,5,9 picks exact times; --stills N spaces them evenly, avoiding the end frame.
     const { writeFile } = await import('node:fs/promises');
-    for (let i = 0; i < stills; i++) {
-      const t = (DURATION * (i + 0.5)) / stills;
+    const times = at && at.length ? at : Array.from({ length: stills }, (_, i) => (DURATION * (i + 0.5)) / stills);
+    for (let i = 0; i < times.length; i++) {
+      const t = times[i];
       const png = await renderAt(t);
       const outPath = path.join(outDir, `${name}-still-${i + 1}.png`);
       await writeFile(outPath, png);

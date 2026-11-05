@@ -26,7 +26,8 @@ window.render = function (t) { /* draw the exact frame at time t */ };
 
 ```bash
 node render.mjs videos/hello.html             # out/hello.mp4 at 30 fps
-node render.mjs videos/hello.html --stills 3  # out/hello-still-{1,2,3}.png
+node render.mjs videos/hello.html --stills 3  # out/hello-still-{1,2,3}.png, evenly spaced
+node render.mjs videos/hello.html --at 1,2.5  # stills at exact seconds
 ```
 
 ## Requirements
