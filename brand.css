@@ -1,0 +1,30 @@
+/* Brand tokens for every video. Edit here; videos read these via var(). */
+:root {
+  /* Colors */
+  --bg: #0f1419;          /* deep slate background */
+  --fg: #f5f1e8;          /* warm off-white text */
+  --accent: #e8a33d;      /* amber accent */
+  --accent-2: #3d8fe8;    /* blue secondary */
+  --muted: #8a9199;       /* captions, secondary text */
+
+  /* Fonts (system stacks so renders are identical everywhere) */
+  --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* Base reset for the frame. Fixed size; no scrollbars; no motion from CSS. */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+}
+
+/* Guard rail: a video must never animate itself. render(t) is the only clock. */
+*, *::before, *::after {
+  animation: none !important;
+  transition: none !important;
+}
