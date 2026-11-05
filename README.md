@@ -6,6 +6,7 @@ Motion graphics written as code. One HTML file per video; a headless browser ren
 
 - `videos/*.html` — one video per file
 - `brand.css` — colors and fonts (edit here, every video inherits)
+- `fonts/` — Poppins (600/700) and Inter (variable) as WOFF2, bundled so renders work offline; SIL OFL licenses alongside
 - `render.mjs` — renderer
 - `out/` — rendered MP4s and stills (committed so they can be downloaded from GitHub)
 

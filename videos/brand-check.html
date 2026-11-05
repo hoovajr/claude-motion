@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../brand.css">
+  <style>
+    #stage { position: absolute; inset: 0; padding: 96px 120px; box-sizing: border-box; }
+
+    #headline {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 88px; letter-spacing: -0.02em; line-height: 1;
+      color: var(--fg);
+    }
+    #headline em { font-style: normal; color: var(--accent); }
+    #tagline {
+      font-family: var(--font-body); font-weight: 400;
+      font-size: 30px; color: var(--muted); margin-top: 20px;
+    }
+
+    #swatches { display: flex; gap: 32px; margin-top: 88px; }
+    .swatch { flex: 1; }
+    .chip { height: 220px; border-radius: 20px; border: 2px solid rgba(248,250,252,0.08); }
+    .label { font-family: var(--font-display); font-weight: 600; font-size: 30px; margin-top: 22px; }
+    .hex { font-family: var(--font-body); font-weight: 500; font-size: 26px; color: var(--muted); margin-top: 6px; }
+
+    #fonts { display: flex; gap: 48px; margin-top: 80px; }
+    .font-card { flex: 1; border-top: 2px solid var(--muted); padding-top: 24px; }
+    .font-name { font-family: var(--font-body); font-weight: 500; font-size: 22px; color: var(--accent);
+                 text-transform: uppercase; letter-spacing: 0.12em; }
+    .sample { margin-top: 14px; font-size: 44px; line-height: 1.2; }
+    .sample.display { font-family: var(--font-display); font-weight: 600; }
+    .sample.body { font-family: var(--font-body); font-weight: 400; }
+  </style>
+</head>
+<body>
+  <div id="stage">
+    <div id="headline">Brand <em>check</em></div>
+    <div id="tagline">Poppins for headlines · Inter for body · four colors</div>
+
+    <div id="swatches">
+      <div class="swatch"><div class="chip" style="background: var(--bg)"></div><div class="label">Background</div><div class="hex">#0F172A</div></div>
+      <div class="swatch"><div class="chip" style="background: var(--accent)"></div><div class="label">Accent</div><div class="hex">#F97316</div></div>
+      <div class="swatch"><div class="chip" style="background: var(--fg)"></div><div class="label">Text</div><div class="hex">#F8FAFC</div></div>
+      <div class="swatch"><div class="chip" style="background: var(--muted)"></div><div class="label">Muted</div><div class="hex">#94A3B8</div></div>
+    </div>
+
+    <div id="fonts">
+      <div class="font-card"><div class="font-name">Poppins · headline</div>
+        <div class="sample display">The quick brown fox jumps over 1234567890</div></div>
+      <div class="font-card"><div class="font-name">Inter · body</div>
+        <div class="sample body">The quick brown fox jumps over 1234567890</div></div>
+    </div>
+  </div>
+
+  <script>
+    window.DURATION = 5;
+    window.SIZE = [1920, 1080];
+
+    const ease = x => 1 - Math.pow(1 - x, 3);
+    const clamp01 = x => Math.min(1, Math.max(0, x));
+    // Fade+rise an element over [start, start+len].
+    const reveal = (el, t, start, len = 0.6, rise = 30) => {
+      const a = ease(clamp01((t - start) / len));
+      el.style.opacity = a;
+      el.style.transform = `translateY(${(1 - a) * rise}px)`;
+    };
+
+    window.render = function (t) {
+      reveal(document.getElementById('headline'), t, 0.0);
+      reveal(document.getElementById('tagline'), t, 0.3);
+      document.querySelectorAll('.swatch').forEach((el, i) => reveal(el, t, 0.8 + i * 0.18));
+      document.querySelectorAll('.font-card').forEach((el, i) => reveal(el, t, 1.9 + i * 0.3));
+
+      // Hold, then fade out over the last half second.
+      document.getElementById('stage').style.opacity = 1 - clamp01((t - 4.5) / 0.5);
+    };
+  </script>
+</body>
+</html>

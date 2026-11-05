@@ -1,15 +1,39 @@
 /* Brand tokens for every video. Edit here; videos read these via var(). */
+
+/* Fonts: bundled locally so renders work offline and look identical everywhere.
+   Inter (variable, 100-900) and Poppins (600, 700). Both SIL OFL; see fonts/OFL-*.txt. */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: block;
+  src: url("fonts/inter-variable.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-display: block;
+  src: url("fonts/poppins-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-display: block;
+  src: url("fonts/poppins-700.woff2") format("woff2");
+}
+
 :root {
   /* Colors */
-  --bg: #0f1419;          /* deep slate background */
-  --fg: #f5f1e8;          /* warm off-white text */
-  --accent: #e8a33d;      /* amber accent */
-  --accent-2: #3d8fe8;    /* blue secondary */
-  --muted: #8a9199;       /* captions, secondary text */
+  --bg: #0F172A;        /* background: deep navy */
+  --accent: #F97316;    /* accent: orange */
+  --fg: #F8FAFC;        /* text: near-white */
+  --muted: #94A3B8;     /* muted: slate gray for captions, secondary text */
 
-  /* Fonts (system stacks so renders are identical everywhere) */
-  --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* Fonts */
+  --font-display: "Poppins", "Helvetica Neue", Arial, sans-serif;  /* headlines */
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;       /* body */
   --font-mono: "SF Mono", Menlo, Consolas, monospace;
 }
 
